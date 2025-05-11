@@ -1,8 +1,7 @@
-import { Client, Account, ID, Models, Databases, Query } from 'react-native-appwrite';
+import { Client, ID,  Databases, Query } from 'react-native-appwrite';
 
 // Know what is the use of new key word
 const client = new Client();
-const account = new Account(client);
 const databases = new Databases(client);
 
 export const config = {
@@ -18,13 +17,16 @@ export const config = {
   // propertiesCollectionId: process.env.EXPO_PUBLIC_APPWRITE_PROPERTIES_COLLECTION_ID,
 };
 
-client.setEndpoint(config.endpoint).setProject(config.projectId).setPlatform(config.platform);
+client
+.setEndpoint(config.endpoint)
+.setProject(config.projectId)
+.setPlatform(config.platform);
 
 // Track the searces made by user
 export const updateSearchCount = async (query:string, movie: Movie) => {
   try {
+    console.log("HEllo frooom appwrite");
     
-  
     // We need to check whether that movie text exist or not
     //  according to query we typed on filed
 
@@ -34,10 +36,11 @@ export const updateSearchCount = async (query:string, movie: Movie) => {
         config.collectionId,
         [ Query.equal('searchTerm', query) ]
     );
-    console.log("Result :",result);
+    console.log("Show me exist existed search query :",result);
     
+    // IF not exist 
  if (result.documents.length >0) {
-  // Search for existing movies
+  // Then update the document 
   const existingMovie = result.documents[0]
   
   await databases.updateDocument(
@@ -45,11 +48,14 @@ export const updateSearchCount = async (query:string, movie: Movie) => {
     config.collectionId,
     existingMovie.$id,
     {
+      // and increase the count
       count: existingMovie.count +1,
     }
   );
- }else{
-
+ }
+//  If exist then 
+ else{
+  // create a new document
   await databases.createDocument(
     config.databaseId,
     config.collectionId,
@@ -65,7 +71,7 @@ export const updateSearchCount = async (query:string, movie: Movie) => {
  }
 } catch (error) {
     console.log("Error from updateSearchCount in appwrite.tsx :",error);
-    throw new Error("Erro while updating search count")
+    throw new Error("Error while updating search count")
 }
   
 
