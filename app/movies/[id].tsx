@@ -10,7 +10,7 @@ import {
   View,
 } from 'react-native';
 import { useEffect } from 'react';
-import {  router, useLocalSearchParams } from 'expo-router';
+import { router, useLocalSearchParams } from 'expo-router';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import useFetch from '~/hooks/useFetch';
 import { fetchMovieDetails } from '~/components/services/api';
@@ -60,13 +60,14 @@ const MovieDetails = () => {
       {/* We don't want to show statusbar in movieDetails screen */}
 
       <FlatList
+        keyExtractor={(id) => id}
         // cause we are getting data in {}
         data={[movies]}
         renderItem={({ item }) => {
           console.log('item :', item);
 
           // let  duration = 100
-          function inMinutes(duration) {
+          function inMinutes(duration: number) {
             const forHour = duration / 60;
             const hours = Math.floor(forHour);
             // it gives reminder

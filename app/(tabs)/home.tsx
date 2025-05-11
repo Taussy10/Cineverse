@@ -61,6 +61,9 @@ const Home = () => {
       <StatusBar barStyle={'light-content'} />
       <Image source={images.bg} className=" absolute z-0 w-full flex-1" />
 
+<FlatList 
+data={[1]}
+renderItem={() => (
       <ScrollView
         className=" flex-1 px-5 "
         contentContainerStyle={{ minHeight: '100%', paddingBottom: 10 }}
@@ -121,6 +124,9 @@ If no then check errors ? Yes then show error if no then show movies
           </View>
         )}
       </ScrollView>
+)}
+/>
+
     </SafeAreaView>
     // </SafeAreaView>
   );
