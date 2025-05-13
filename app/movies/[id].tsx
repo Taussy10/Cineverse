@@ -64,7 +64,7 @@ const MovieDetails = () => {
         // cause we are getting data in {}
         data={[movies]}
         renderItem={({ item }) => {
-          console.log('item :', item);
+          console.log('item Budgeet :', item?.budget);
 
           // let  duration = 100
           function inMinutes(duration: number) {
@@ -147,12 +147,12 @@ const MovieDetails = () => {
                 {/* For generes */}
                 <ScrollView horizontal>
                   <View className=" flex-row ">
-                    {item?.genres.map((item) => {
+                    {item?.genres.map((item, index) => {
                       console.log(item);
 
                       return (
                         // this container for between the elements
-                        <View className=" mb-3  mr-2  rounded-lg bg-blue-600 p-2">
+                        <View key={index} className=" mb-3  mr-2  rounded-lg bg-blue-600 p-2">
                           <Text className=" font-semibold text-white">{item.name}</Text>
                         </View>
                       );
@@ -166,14 +166,19 @@ const MovieDetails = () => {
                   <View>
                     <Text className=" font-semibold text-text">Budget</Text>
                     <Text className=" font-semibold text-white">
-                      ${item?.budget / 1000000} Million
+                      {/* {
+                        // 180,00,0000
+                        item?.budget /1000000 < 1 ?`${item?.budget} K` :`${item?.budget} M`  
+                      } */}
+                      $ {Math.round(item?.budget)} 
                     </Text>
                   </View>
 
                   <View>
                     <Text className=" font-semibold text-text"> Revenue</Text>
                     <Text className=" font-semibold text-white">
-                      ${Math.round(item?.revenue / 1000000)} Million
+                      {/* ${Math.round(item?.revenue / 1000000)} Million */}
+                      $ {Math.round(item?.revenue)}
                     </Text>
                   </View>
                 </View>
@@ -191,12 +196,12 @@ const MovieDetails = () => {
                   <Text className="  mb-2 font-semibold  text-text ">Production Companies</Text>
                   <ScrollView horizontal>
                     <View className=" flex-row ">
-                      {item?.production_companies.map((item) => {
+                      {item?.production_companies.map((item, index) => {
                         console.log(item);
 
                         return (
                           // this container for between the elements
-                          <View className=" mb-3  mr-2  rounded-lg bg-blue-600 p-2">
+                          <View key={index} className=" mb-3  mr-2  rounded-lg bg-blue-600 p-2">
                             <Text className=" font-semibold text-white">{item.name}</Text>
                           </View>
                         );
@@ -208,7 +213,7 @@ const MovieDetails = () => {
                 <TouchableOpacity
                   className=" flex-row  items-center justify-center  rounded-xl bg-darkAccent p-4 
 "
-                  //     absolute right-0 left-0 bottom-5  z-40 mx-5
+                  //absolute right-0 left-0 bottom-5  z-40 mx-5
                   activeOpacity={0.8}
                   onPress={() => router.back()}>
                   <Image source={icons.goBack} className=" size-7" />

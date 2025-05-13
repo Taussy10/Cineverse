@@ -74,6 +74,7 @@ const Home = () => {
       <StatusBar barStyle={'light-content'} />
       <Image source={images.bg} className=" absolute z-0 w-full flex-1" />
 
+{/* This flatlist is for whole screen */}
       <FlatList
         data={[1]}
         renderItem={() => (
@@ -100,22 +101,17 @@ If no then check errors ? Yes then show error if no then show movies
                 />
 
                 <>
+                {/* Look we need it's own componnet not inside Flatlist  */}
                   <PopularMoviesCards data={popularMovies} />
 
                   <Text className="  mb-3 mt-5  text-xl font-bold text-white">Latest Movies</Text>
+                  {/* This flatlist will render all movies and for that we need title that's above Flatlist */}
                   <FlatList
                     data={movies}
                     // horizontal
                     numColumns={2}
                     // This will style each coloumn
                     // columnWrapperStyle= {{marginBottom: 80}}
-
-                    // For header component
-                    //               ListHeaderComponent={
-                    //                 <View>
-
-                    //                 </View>
-                    //               }
 
                     // why keyExtractor? For every item can uniquely identified
                     // You can create id using index

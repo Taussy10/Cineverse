@@ -20,9 +20,10 @@ const PopularMoviesCards = ({data}) => {
 
       <FlatList
         horizontal={true}
+        showsHorizontalScrollIndicator={false}
         data={data}
         renderItem={({ item, index }) => {
-          console.log('item :', item.poster_url);
+        //   console.log('item :', item.poster_url);
 
           return (
             // <TouchableOpacity onPress={ router.push({
@@ -34,13 +35,13 @@ const PopularMoviesCards = ({data}) => {
             <TouchableOpacity
               activeOpacity={0.6}
               className=" mb-6 mr-6 "
-              //   onPress={() =>
-              //     router.push({
-              //       pathname: '/movies/[id]',
-              //       // We have to write params in curlies
-              //       params: { id: id.toString() },
-              //     })
-              //   }
+                onPress={() =>
+                  router.push({
+                    pathname: '/movies/[id]',
+                    // We have to write params in curlies
+                    params: { id: item.movie_id.toString() },
+                  })
+                }
             >
               <Image
                 source={{
