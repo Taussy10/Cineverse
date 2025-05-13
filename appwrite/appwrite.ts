@@ -31,19 +31,19 @@ export const updateSearchCount = async (query:string, movie: Movie) => {
     //  according to query we typed on filed
 
     // if exist ? then increase the count
-    const result = await databases.listDocuments(
+    const allDocuments = await databases.listDocuments(
         config.databaseId, 
         config.collectionId,
         [ Query.equal('searchTerm', query) ]
     );
-    console.log("Show me exist existed search query :",result);
+    console.log("Show me exist existed search query :",allDocuments);
     
     // IF not exist 
- if (result.documents.length >0) {
+ if (allDocuments.documents.length >0) {
   // Then update the document 
-  const existingMovie = result.documents[0]
+  const existingMovie = allDocuments.documents[0]
   
-  await databases.updateDocument(
+  const updateDocument = await databases.updateDocument(
     config.databaseId,
     config.collectionId,
     existingMovie.$id,
@@ -52,11 +52,13 @@ export const updateSearchCount = async (query:string, movie: Movie) => {
       count: existingMovie.count +1,
     }
   );
+  console.log("UpdateDocument :",updateDocument);
+  
  }
 //  If exist then 
  else{
   // create a new document
-  await databases.createDocument(
+ const createDocument =  await databases.createDocument(
     config.databaseId,
     config.collectionId,
     ID.unique(),
@@ -68,6 +70,8 @@ export const updateSearchCount = async (query:string, movie: Movie) => {
       "movie_id": movie.id
     }
   )
+  console.log("CreateDocument :",createDocument);
+  
  }
 } catch (error) {
     console.log("Error from updateSearchCount in appwrite.tsx :",error);
