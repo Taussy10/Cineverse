@@ -17,7 +17,7 @@ import { useRouter } from 'expo-router';
 import useFetch from '~/hooks/useFetch';
 import { fetchMovieDetails, fetchMovies } from '~/components/services/api';
 import MovieCard from '~/components/MovieCard';
-import { useState ,useEffect} from 'react';
+import { useState, useEffect } from 'react';
 import { fetchPopularMovies } from '~/appwrite/appwrite';
 import PopularMoviesCards from '~/components/popular-movies-cards';
 
@@ -39,17 +39,16 @@ const Home = () => {
     // This query will take search props
   } = useFetch(() => fetchMovies({ query: searchQuery }));
 
-  
-   const fetchedPopularMoives = async() => {
-    const result = await fetchPopularMovies()
-   setPopularMovies(result)
-   }
- useEffect(() => {
-  fetchedPopularMoives()
- }, [])
- 
- console.log("PopularMovies :",popularMovies);
- 
+  const fetchedPopularMoives = async () => {
+    const result = await fetchPopularMovies();
+    setPopularMovies(result);
+  };
+  useEffect(() => {
+    fetchedPopularMoives();
+  }, []);
+
+  console.log('PopularMovies :', popularMovies);
+
   const handleSearch = (text: string) => {
     setSearchQuery(text);
   };
@@ -75,79 +74,81 @@ const Home = () => {
       <StatusBar barStyle={'light-content'} />
       <Image source={images.bg} className=" absolute z-0 w-full flex-1" />
 
-<FlatList 
-data={[1]}
-renderItem={() => (
-      <ScrollView
-        className=" flex-1 px-5 "
-        contentContainerStyle={{ minHeight: '100%', paddingBottom: 10 }}
-        showsVerticalScrollIndicator={false}>
-        <Image source={icons.logo} className="mx-auto mb-5  mt-20 h-10 w-12" />
+      <FlatList
+        data={[1]}
+        renderItem={() => (
+          <ScrollView
+            className=" flex-1 px-5 "
+            contentContainerStyle={{ minHeight: '100%', paddingBottom: 10 }}
+            showsVerticalScrollIndicator={false}>
+            <Image source={icons.logo} className="mx-auto mb-5  mt-20 h-10 w-12" />
 
-        {/* Firstliy check are we loading movies ? Yes then show loading 
+            {/* Firstliy check are we loading movies ? Yes then show loading 
 If no then check errors ? Yes then show error if no then show movies
 */}
-        {moviesLoading ? (
-          <ActivityIndicator color={'#0000ff'} size={'large'} className="  mt-5 self-center" />
-        ) : moviesError ? (
-          <Text>Error: {moviesError?.message} Failed</Text>
-        ) : (
-          <View className=" mt-5 flex-1  ">
-            <SearchBar
-              onPress={() => router.push('/search')}
-              placeholder="Search through 300+ movies online"
-              inputValue={searchQuery}
-              onChangeText={handleSearch}
-            />
+            {moviesLoading ? (
+              <ActivityIndicator color={'#0000ff'} size={'large'} className="  mt-5 self-center" />
+            ) : moviesError ? (
+              <Text>Error: {moviesError?.message} Failed</Text>
+            ) : (
+              <View className=" mt-5 flex-1  ">
+                <SearchBar
+                  onPress={() => router.push('/search')}
+                  placeholder="Search through 300+ movies online"
+                  inputValue={searchQuery}
+                  onChangeText={handleSearch}
+                />
 
-            <>
-              {/* <Text className="  mb-3 mt-5  text-xl font-bold text-white">Latest Movies</Text> */}
+                <>
+                  <PopularMoviesCards data={popularMovies} />
 
-              <FlatList
-                data={movies}
-                // horizontal
-                numColumns={2}
-                // This will style each coloumn 
-                // columnWrapperStyle= {{marginBottom: 80}}
-                
-                // For header component 
-                ListHeaderComponent={
-                   <PopularMoviesCards data={popularMovies} />
-                }
+                  <Text className="  mb-3 mt-5  text-xl font-bold text-white">Latest Movies</Text>
+                  <FlatList
+                    data={movies}
+                    // horizontal
+                    numColumns={2}
+                    // This will style each coloumn
+                    // columnWrapperStyle= {{marginBottom: 80}}
 
-                // why keyExtractor? For every item can uniquely identified
-                // You can create id using index
-                // WHat is index? Flatlist run the loops
-                // on data then store each data in array that index
-                // keyExtractor={(index) => index}
-                // Custom id from data and if it's not string made it
-                keyExtractor={(item) => item.id.toString()}
-                renderItem={({ item }) => {
-                  return (
-                    // Why in percetage cause these absolute value deosn' follow blocks scope rules
-                    // if the text 1000 then it take whole screen horizontally so needed
-                    // so that it takes only 50% of screen
-              <View>
-                {/* Why here ... is not working  */}
+                    // For header component
+                    //               ListHeaderComponent={
+                    //                 <View>
 
-                    <View className=" w-[50%]">
-                      <MovieCard
-                        // Just speraded the object then get it one by one in
-                        //  MovieCard component
-                        {...item}
-                        />
+                    //                 </View>
+                    //               }
+
+                    // why keyExtractor? For every item can uniquely identified
+                    // You can create id using index
+                    // WHat is index? Flatlist run the loops
+                    // on data then store each data in array that index
+                    // keyExtractor={(index) => index}
+                    // Custom id from data and if it's not string made it
+                    keyExtractor={(item) => item.id.toString()}
+                    renderItem={({ item }) => {
+                      return (
+                        // Why in percetage cause these absolute value deosn' follow blocks scope rules
+                        // if the text 1000 then it take whole screen horizontally so needed
+                        // so that it takes only 50% of screen
+                        <View>
+                          {/* We can't write here cause the whatever write will loop and will write but we won't static thing and only place  */}
+
+                          <View className=" w-[50%]">
+                            <MovieCard
+                              // Just speraded the object then get it one by one in
+                              //  MovieCard component
+                              {...item}
+                            />
+                          </View>
                         </View>
-                    </View>
-                  );
-                }}
-              />
-            </>
-          </View>
+                      );
+                    }}
+                  />
+                </>
+              </View>
+            )}
+          </ScrollView>
         )}
-      </ScrollView>
-)}
-/>
-
+      />
     </SafeAreaView>
     // </SafeAreaView>
   );
