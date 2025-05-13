@@ -25,7 +25,6 @@ client
 // Track the searces made by user
 export const updateSearchCount = async (query:string, movie: Movie) => {
   try {
-    console.log("HEllo frooom appwrite");
     
     // We need to check whether that movie text exist or not
     //  according to query we typed on filed
@@ -85,9 +84,14 @@ export const updateSearchCount = async (query:string, movie: Movie) => {
 };
 
 
-const fetchPopularMovies = () => {
+export const fetchPopularMovies = async() => {
   try {
-    
+    const promise = databases.listDocuments(
+      config.databaseId,
+      config.collectionId
+    )
+    console.log("promise from fetchPopularMovies fun in appwrite.ts :",promise);
+    return (await promise).documents;
   } catch (error) {
     console.log("Failed to fetch popular movies",error);
     

@@ -60,7 +60,7 @@ export const fetchMovies = async ({ query }: { query: string }) => {
     // 2. async await + try catch
     
     const data = await response.json();
-    console.log('movieData :', data);
+    // console.log('movieData :', data);
 
     return data.results;
   } catch (error) {

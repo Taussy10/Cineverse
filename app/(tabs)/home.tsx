@@ -15,9 +15,11 @@ import { icons } from '~/constants/icons';
 import SearchBar from '~/components/search-bar';
 import { useRouter } from 'expo-router';
 import useFetch from '~/hooks/useFetch';
-import { fetchMovies } from '~/components/services/api';
+import { fetchMovieDetails, fetchMovies } from '~/components/services/api';
 import MovieCard from '~/components/MovieCard';
-import { useState ,} from 'react';
+import { useState ,useEffect} from 'react';
+import { fetchPopularMovies } from '~/appwrite/appwrite';
+import PopularMoviesCards from '~/components/popular-movies-cards';
 
 const Home = () => {
   const router = useRouter();
@@ -29,6 +31,7 @@ const Home = () => {
   // value is toring
   // problem is in key presssing
   const [searchQuery, setSearchQuery] = useState('');
+  const [popularMovies, setPopularMovies] = useState([]);
   const {
     data: movies,
     loading: moviesLoading,
@@ -36,6 +39,17 @@ const Home = () => {
     // This query will take search props
   } = useFetch(() => fetchMovies({ query: searchQuery }));
 
+  
+   const fetchedPopularMoives = async() => {
+    const result = await fetchPopularMovies()
+   setPopularMovies(result)
+   }
+ useEffect(() => {
+  fetchedPopularMoives()
+ }, [])
+ 
+ console.log("PopularMovies :",popularMovies);
+ 
   const handleSearch = (text: string) => {
     setSearchQuery(text);
   };
@@ -87,7 +101,7 @@ If no then check errors ? Yes then show error if no then show movies
             />
 
             <>
-              <Text className="  mb-3 mt-5  text-xl font-bold text-white">Latest Movies</Text>
+              {/* <Text className="  mb-3 mt-5  text-xl font-bold text-white">Latest Movies</Text> */}
 
               <FlatList
                 data={movies}
@@ -95,7 +109,11 @@ If no then check errors ? Yes then show error if no then show movies
                 numColumns={2}
                 // This will style each coloumn 
                 // columnWrapperStyle= {{marginBottom: 80}}
-
+                
+                // For header component 
+                ListHeaderComponent={
+                   <PopularMoviesCards data={popularMovies} />
+                }
 
                 // why keyExtractor? For every item can uniquely identified
                 // You can create id using index
@@ -109,13 +127,16 @@ If no then check errors ? Yes then show error if no then show movies
                     // Why in percetage cause these absolute value deosn' follow blocks scope rules
                     // if the text 1000 then it take whole screen horizontally so needed
                     // so that it takes only 50% of screen
+              <View>
+                {/* Why here ... is not working  */}
 
                     <View className=" w-[50%]">
                       <MovieCard
                         // Just speraded the object then get it one by one in
                         //  MovieCard component
                         {...item}
-                      />
+                        />
+                        </View>
                     </View>
                   );
                 }}
