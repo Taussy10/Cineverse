@@ -8,6 +8,7 @@ import {
   FlatList,
   TouchableOpacity,
   StatusBar,
+  RefreshControl,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { images } from '~/constants/images';
@@ -23,6 +24,7 @@ import PopularMoviesCards from '~/components/popular-movies-cards';
 
 const Home = () => {
   const router = useRouter();
+  const [refreshing, setRefreshing] = useState(true);
   // For textInput we need tow things
   // 1.  storing value in text input
   // 2. Function that shows that this key has pressed by giving a prams
@@ -52,6 +54,17 @@ const Home = () => {
   const handleSearch = (text: string) => {
     setSearchQuery(text);
   };
+  // const onRefresh = () => {
+  //   setRefreshing(true);
+  //   try {
+  //     moviesLoading 
+  //     setRefreshing(false)
+  //   } catch (error){
+  //   }
+  //   // finally{
+  //   //   setRefreshing(false)
+  //   // }
+  // };
   // What will be result ? movies
   // what will be text that we will pass? inputValue
 
@@ -74,14 +87,17 @@ const Home = () => {
       <StatusBar barStyle={'light-content'} />
       <Image source={images.bg} className=" absolute z-0 w-full flex-1" />
 
-{/* This flatlist is for whole screen */}
+      {/* This flatlist is for whole screen */}
+      <RefreshControl refreshing={refreshing} />
       <FlatList
         data={[1]}
         renderItem={() => (
           <ScrollView
             className=" flex-1 px-5 "
             contentContainerStyle={{ minHeight: '100%', paddingBottom: 10 }}
-            showsVerticalScrollIndicator={false}>
+            showsVerticalScrollIndicator={false}
+
+            >
             <Image source={icons.logo} className="mx-auto mb-5  mt-20 h-10 w-12" />
 
             {/* Firstliy check are we loading movies ? Yes then show loading 
@@ -101,7 +117,7 @@ If no then check errors ? Yes then show error if no then show movies
                 />
 
                 <>
-                {/* Look we need it's own componnet not inside Flatlist  */}
+                  {/* Look we need it's own componnet not inside Flatlist  */}
                   <PopularMoviesCards data={popularMovies} />
 
                   <Text className="  mb-3 mt-5  text-xl font-bold text-white">Latest Movies</Text>

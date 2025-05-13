@@ -4,7 +4,6 @@ import {
   Image,
   ScrollView,
   StatusBar,
-  StyleSheet,
   Text,
   TouchableOpacity,
   View,
@@ -14,7 +13,6 @@ import { router, useLocalSearchParams } from 'expo-router';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import useFetch from '~/hooks/useFetch';
 import { fetchMovieDetails } from '~/components/services/api';
-// import { fetchMovieDetails } from '~/components/services/api';
 
 import { icons } from '~/constants/icons';
 

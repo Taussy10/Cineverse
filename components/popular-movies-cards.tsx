@@ -55,26 +55,11 @@ const PopularMoviesCards = ({data}) => {
               />
               {/*Movie Details*/}
               <View>
-                <View className=" flex-row gap-1 ">
-                  <Image source={icons.star} className=" size-4" />
-                  {/* slice method for string not number */}
-                  <Text className="  text-sm font-semibold text-white">
-                    {/* {vote_average.toString().slice(0, 3)} */}
-                  </Text>
-                </View>
-                {/* Genere */}
-                {/* <Text className=" text-sm text-white">{item.original_title}</Text>     */}
                 <Text
                   numberOfLines={1} // Just show text will take only one line
-                  className=" text-base  font-semibold text-white ">
+                  className=" text-xl font-bold mt-2 text-white text-center ">
                   {item.title}
                 </Text>
-
-                {/* For release date and genere */}
-                <View className=" flex-row   items-center justify-between">
-                  {/* <Text className="  text-xs   text-white ">{item.release_date?.split('-')[0]}</Text> */}
-                  <Text className="  text-xs uppercase text-white">Action</Text>
-                </View>
               </View>
             </TouchableOpacity>
             // </Link>
