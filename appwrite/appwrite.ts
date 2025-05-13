@@ -34,15 +34,18 @@ export const updateSearchCount = async (query:string, movie: Movie) => {
     const allDocuments = await databases.listDocuments(
         config.databaseId, 
         config.collectionId,
-        [ Query.equal('searchTerm', query) ]
+        [ Query.equal('searchTerm', query.trim()) ]
     );
     console.log("Show me exist existed search query :",allDocuments);
     
     // IF not exist 
+    // update function matters on same data as it created 
+    // url , name , searchterm and other things 
  if (allDocuments.documents.length >0) {
-  // Then update the document 
+  // Then get the first movie from all movies documents 
   const existingMovie = allDocuments.documents[0]
   
+  // Then update it in that document id count + 1 
   const updateDocument = await databases.updateDocument(
     config.databaseId,
     config.collectionId,
@@ -63,7 +66,7 @@ export const updateSearchCount = async (query:string, movie: Movie) => {
     config.collectionId,
     ID.unique(),
     {
-      "searchTerm":query,
+      "searchTerm":query.trim(),
       "count": 1,
       "poster_url": `https://image.tmdb.org/t/p/w500${movie.poster_path}` ,
       "title": movie.original_title,
@@ -82,29 +85,12 @@ export const updateSearchCount = async (query:string, movie: Movie) => {
 };
 
 
-  // // if that searchTerm exist then increase the count
-  // const updateMovies = await databases.updateDocument(
-  //   config.databaseId,
-  //   config.collectionId,
-  //   ID.unique(),
-  //   {
-  //     count: +1,
-  //   }
-  // );
-
-
-  //   // If not exist that searchTerm then create a new document
-  //   if (!result) {
-  //     const hello = await databases.createDocument(
-  //       config.databaseId,
-  //       config.collectionId,
-  //       ID.unique(),
-  //       {
-  //         "searchTerm":query,
-  //         "count": 1,
-  //         "poster_url": movie.poster_path,
-  //         "title": movie.original_title,
-  //         "movie_id": movie.id
-  //       }
-  //     )
-  // }
+const fetchPopularMovies = () => {
+  try {
+    
+  } catch (error) {
+    console.log("Failed to fetch popular movies",error);
+    
+    
+  }
+}

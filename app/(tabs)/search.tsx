@@ -48,18 +48,22 @@ const Search = () => {
     const timeoutId = setTimeout(async () => {
       // if searchquery is truthy value then 
       if (searchQuery.trim()) {
-        await loadMovies();
+        const loaded = await loadMovies();
+        console.log("Loaded :",loaded);
+        
            if (movies?.length>0 && movies?.[0]) {
           // We only want first movie 
           console.log("SearchQuery", searchQuery);
           console.log("First movie", movies[0]);
-          
-           await updateSearchCount(searchQuery,movies[0])
+
+              await updateSearchCount(searchQuery,movies[0])
+           console.log("Hello from update count function");
+         
           }
       } else {
         resetMovies();
       }
-    }, 1000);
+    }, 2000);
 
     return () => clearTimeout(timeoutId);
   }, [searchQuery]);
