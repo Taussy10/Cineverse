@@ -23,6 +23,12 @@ const Saved = () => {
 
         <View className='mt-20  px-4 '>
          <Text className=' text-white'>Saved</Text>
+         <Image source={icons.home}
+        //  What does tint do ? It changes the monochrome(single color image: An image made by single color) images to tintColor 
+        // for example this person image is a monochrome having light violet color but by tint we changed the color to green  
+        // make sure you add tinitColor in curlies
+         tintColor={"green"}
+         />
         </View>
        </SafeAreaView>
   )
