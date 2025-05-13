@@ -12,10 +12,13 @@ const Saved = () => {
       <SafeAreaView
        className=' flex-1  bg-primary'>
         <Image source={images.bg}
-        className=' absolute z-50 w-full flex-1'
+        className=' absolute  z-50 w-full flex-1'
+         
         />
         <View className='mt-20 w-full flex-row justify-center items-center'>
-        <Image source={icons.logo} className='size-12  ' />
+        <Image source={icons.logo} className='size-12  '
+        resizeMode= "contain"
+        />
         </View>
 
         <View className='mt-20  px-4 '>
